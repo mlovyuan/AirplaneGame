@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static fundation.GameUtil.*;
+
 public class MyGameFrame extends Frame {
     Image _background;
     Image _airplane;
@@ -11,7 +13,7 @@ public class MyGameFrame extends Frame {
     public void initFrame() {
         setTitle("Airplane Game");
         setVisible(true);
-        setSize(500, 500);
+        setSize(_frame_width, _frame_height);
         setLocation(300, 300);
 
         addWindowListener(new WindowAdapter() {
@@ -21,23 +23,26 @@ public class MyGameFrame extends Frame {
             }
         });
 
-        _background = GameUtil.getImage("images/starry.jpg");
-        _airplane = GameUtil.getImage("images/aircraft.png");
+        _background = getImage("images/starry.jpg");
+        _airplane = getImage("images/aircraft.png");
 
         // start paint thread
         new PaintThread().start();
     }
 
+    int x= 200, y = 200;
     @Override
     public void paint(Graphics g) {
-        g.drawImage(_background,0,0,500,500,null);
-        g.drawImage(_airplane,200,200,30,30,null);
+        g.drawImage(_background, 0, 0, _frame_width, _frame_height, null);
+        g.drawImage(_airplane, x, y, 30, 30, null);
+        x--;
+        y--;
     }
 
-    class PaintThread extends Thread{
+    class PaintThread extends Thread {
         @Override
         public void run() {
-            while (true){
+            while (true) {
                 repaint();
                 try {
                     Thread.sleep(40);
@@ -46,6 +51,17 @@ public class MyGameFrame extends Frame {
                 }
             }
         }
+    }
+
+    private Image offScreenImage = null;
+
+    // resolve game window flicker
+    public void update(Graphics g) {
+        if (offScreenImage == null)
+            offScreenImage = createImage(_frame_width, _frame_height);
+        Graphics gOff = offScreenImage.getGraphics();
+        paint(gOff);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
 
     public static void main(String[] args) {

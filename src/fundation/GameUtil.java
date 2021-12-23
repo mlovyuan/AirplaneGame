@@ -11,6 +11,9 @@ public class GameUtil {
     private GameUtil() {
     }
 
+    public static final int _frame_width = 500;
+    public static final int _frame_height = 500;
+
     public static Image getImage(String path) {
         URL url = GameUtil.class.getClassLoader().getResource(path);
         try {
