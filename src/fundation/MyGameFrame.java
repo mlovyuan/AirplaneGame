@@ -23,12 +23,29 @@ public class MyGameFrame extends Frame {
 
         _background = GameUtil.getImage("images/starry.jpg");
         _airplane = GameUtil.getImage("images/aircraft.png");
+
+        // start paint thread
+        new PaintThread().start();
     }
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(_background,0,0,500,500,null);
         g.drawImage(_airplane,200,200,30,30,null);
+    }
+
+    class PaintThread extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                repaint();
+                try {
+                    Thread.sleep(40);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
