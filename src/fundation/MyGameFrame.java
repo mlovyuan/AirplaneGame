@@ -5,6 +5,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MyGameFrame extends Frame {
+    Image _background;
+    Image _airplane;
+
     public void initFrame() {
         setTitle("Airplane Game");
         setVisible(true);
@@ -17,11 +20,15 @@ public class MyGameFrame extends Frame {
                 System.exit(0);
             }
         });
+
+        _background = GameUtil.getImage("images/starry.jpg");
+        _airplane = GameUtil.getImage("images/aircraft.png");
     }
 
     @Override
     public void paint(Graphics g) {
-
+        g.drawImage(_background,0,0,500,500,null);
+        g.drawImage(_airplane,200,200,30,30,null);
     }
 
     public static void main(String[] args) {
