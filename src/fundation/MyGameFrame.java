@@ -19,6 +19,11 @@ public class MyGameFrame extends Frame {
         });
     }
 
+    @Override
+    public void paint(Graphics g) {
+
+    }
+
     public static void main(String[] args) {
         MyGameFrame frame = new MyGameFrame();
         frame.initFrame();
