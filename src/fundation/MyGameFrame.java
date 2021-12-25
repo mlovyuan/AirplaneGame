@@ -1,6 +1,8 @@
 package fundation;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,7 +11,7 @@ import static fundation.GameUtil.*;
 public class MyGameFrame extends Frame {
     private Image _backgroundImg = getImage("images/starry.jpg");
     private Image _airplaneImg = getImage("images/aircraft.png");
-    private Airplane airplane = new Airplane(_airplaneImg, 200, 200, 3);
+    private Airplane airplane = new Airplane(_airplaneImg, 200, 200, 7);
 
     @Override
     public void paint(Graphics g) {
@@ -31,6 +33,19 @@ public class MyGameFrame extends Frame {
         }
     }
 
+    class KeyboardMoniter extends KeyAdapter{
+        @Override
+        public void keyPressed(KeyEvent e) {
+            airplane.addDirection(e);
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            airplane.minusDirection(e);
+        }
+    }
+
+
     // resolve game window flicker
     public void update(Graphics g) {
         Image offScreenImage = null;
@@ -47,6 +62,7 @@ public class MyGameFrame extends Frame {
         setSize(_frame_width, _frame_height);
         setLocation(300, 300);
 
+        // listen to close window
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -56,6 +72,9 @@ public class MyGameFrame extends Frame {
 
         // start paint thread
         new PaintThread().start();
+
+        // listen to keyboard's action
+        addKeyListener(new KeyboardMoniter());
     }
 
     public static void main(String[] args) {

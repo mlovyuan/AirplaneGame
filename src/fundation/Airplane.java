@@ -1,26 +1,61 @@
 package fundation;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Airplane extends GameObject {
 
-    private boolean _isLeftDirection;
+    private boolean _left, _right, _up, _down;
 
     public Airplane(Image img, int xAxis, int yAxis, int speed) {
-        super(img, xAxis, yAxis, speed,30,30);
+        super(img, xAxis, yAxis, speed, 30, 30);
+    }
+
+    public void addDirection(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                _left = true;
+                break;
+            case KeyEvent.VK_RIGHT:
+                _right = true;
+                break;
+            case KeyEvent.VK_UP:
+                _up = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                _down = true;
+                break;
+        }
+    }
+
+    public void minusDirection(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                _left = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                _right = false;
+                break;
+            case KeyEvent.VK_UP:
+                _up = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                _down = false;
+                break;
+        }
     }
 
     @Override
     public void drawMyself(Graphics graphics) {
         super.drawMyself(graphics);
-        if (_isLeftDirection)
-            _xAxis -= _speed;
-        else
-            _xAxis += _speed;
 
-        if (_xAxis > GameUtil._frame_width - _width)
-            _isLeftDirection = true;
-        else if (_xAxis < 0)
-            _isLeftDirection = false;
+        if (_left)
+            _xAxis -= _speed;
+        else if (_right)
+            _xAxis += _speed;
+        else if (_up)
+            _yAxis -= _speed;
+        else if (_down)
+            _yAxis += _speed;
     }
 }
