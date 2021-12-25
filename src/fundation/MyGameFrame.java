@@ -30,7 +30,8 @@ public class MyGameFrame extends Frame {
         new PaintThread().start();
     }
 
-    int x= 200, y = 200;
+    int x = 200, y = 200;
+
     @Override
     public void paint(Graphics g) {
         g.drawImage(_background, 0, 0, _frame_width, _frame_height, null);
