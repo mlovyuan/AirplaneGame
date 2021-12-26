@@ -8,8 +8,8 @@ public class Cannonball extends GameObject {
 
     public Cannonball() {
         _degree = Math.random() * Math.PI * 2;
-        _xAxis = 200;
-        _yAxis = 200;
+        _xAxis = 100;
+        _yAxis = 100;
         _width = 10;
         _height = 10;
         _speed = 6;

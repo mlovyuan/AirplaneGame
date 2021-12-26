@@ -6,9 +6,11 @@ import java.awt.event.KeyEvent;
 public class Airplane extends GameObject {
 
     private boolean _left, _right, _up, _down;
+    boolean _isAlive;
 
     public Airplane(Image img, int xAxis, int yAxis, int speed) {
         super(img, xAxis, yAxis, speed, 30, 30);
+        _isAlive = true;
     }
 
     public void addDirection(KeyEvent e) {
@@ -47,6 +49,9 @@ public class Airplane extends GameObject {
 
     @Override
     public void drawMyself(Graphics graphics) {
+        if (!_isAlive)
+            return;
+
         super.drawMyself(graphics);
 
         if (_left)

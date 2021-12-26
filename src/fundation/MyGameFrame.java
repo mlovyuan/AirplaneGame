@@ -23,6 +23,9 @@ public class MyGameFrame extends Frame {
             if (cannonballs[i] == null)
                 initFrame();
             cannonballs[i].drawMyself(g);
+            boolean isBoom = cannonballs[i].getRectangle().intersects(airplane.getRectangle());
+            if(isBoom)
+                airplane._isAlive = false;
         }
 
     }
