@@ -21,12 +21,16 @@ public class Cannonball extends GameObject {
         graphics.setColor(Color.yellow);
         graphics.fillOval(_xAxis, _yAxis, _width, _height);
         flyDirectionWithDegree(_degree);
-        if (_yAxis > GameUtil._frame_height || _yAxis < 30)
+        reboundDealing();
+        graphics.setColor(originalColor);
+    }
+
+    private void reboundDealing() {
+        if (_yAxis > GameUtil._frame_height - _height || _yAxis < 30)
             _degree = -_degree;
 
-        if (_xAxis > GameUtil._frame_width-_width || _xAxis < 0)
+        if (_xAxis > GameUtil._frame_width - _width || _xAxis < 0)
             _degree = Math.PI - _degree;
-        graphics.setColor(originalColor);
     }
 
     private void flyDirectionWithDegree(double degree) {

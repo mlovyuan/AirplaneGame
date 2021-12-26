@@ -12,13 +12,19 @@ public class MyGameFrame extends Frame {
     private Image _backgroundImg = getImage("images/starry.jpg");
     private Image _airplaneImg = getImage("images/aircraft.png");
     private Airplane airplane = new Airplane(_airplaneImg, 200, 200, 7);
-    private Cannonball cannonball = new Cannonball();
+    private Cannonball[] cannonballs = new Cannonball[50];
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(_backgroundImg, 0, 0, _frame_width, _frame_height, null);
         airplane.drawMyself(g);
-        cannonball.drawMyself(g);
+
+        for (int i = 0; i < cannonballs.length; i++) {
+            if (cannonballs[i] == null)
+                initFrame();
+            cannonballs[i].drawMyself(g);
+        }
+
     }
 
     class PaintThread extends Thread {
@@ -35,7 +41,7 @@ public class MyGameFrame extends Frame {
         }
     }
 
-    class KeyboardMoniter extends KeyAdapter{
+    class KeyboardMonitor extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             airplane.addDirection(e);
@@ -76,7 +82,10 @@ public class MyGameFrame extends Frame {
         new PaintThread().start();
 
         // listen to keyboard's action
-        addKeyListener(new KeyboardMoniter());
+        addKeyListener(new KeyboardMonitor());
+
+        for (int i = 0; i < cannonballs.length; i++)
+            cannonballs[i] = new Cannonball();
     }
 
     public static void main(String[] args) {
