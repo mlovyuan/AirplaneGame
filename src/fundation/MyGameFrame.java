@@ -17,6 +17,7 @@ public class MyGameFrame extends Frame {
     public void paint(Graphics g) {
         g.drawImage(_backgroundImg, 0, 0, _frame_width, _frame_height, null);
         airplane.drawMyself(g);
+        new Cannonball().drawMyself(g);
     }
 
     class PaintThread extends Thread {
