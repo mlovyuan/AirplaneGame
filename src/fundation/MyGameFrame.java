@@ -32,7 +32,8 @@ public class MyGameFrame extends Frame {
                 _explode.draw(g);
             }
         }
-
+        if (!_airplane._isAlive)
+            printInfo(g,"Airplane Crash",40,_airplane._xAxis,_airplane._yAxis, Color.WHITE);
     }
 
     class PaintThread extends Thread {
@@ -59,6 +60,19 @@ public class MyGameFrame extends Frame {
         public void keyReleased(KeyEvent e) {
             _airplane.minusDirection(e);
         }
+    }
+
+    public void printInfo(Graphics graphics, String info, int size, int xAxis, int yAxis, Color color) {
+        Font oldFont = graphics.getFont();
+        Color oldColor = graphics.getColor();
+
+        Font font = new Font("宋體", Font.BOLD, size);
+        graphics.setFont(font);
+        graphics.setColor(color);
+        graphics.drawString(info, xAxis, yAxis);
+
+        graphics.setFont(oldFont);
+        graphics.setColor(oldColor);
     }
 
 
