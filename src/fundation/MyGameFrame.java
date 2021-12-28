@@ -11,21 +11,26 @@ import static fundation.GameUtil.*;
 public class MyGameFrame extends Frame {
     private Image _backgroundImg = getImage("images/starry.jpg");
     private Image _airplaneImg = getImage("images/aircraft.png");
-    private Airplane airplane = new Airplane(_airplaneImg, 200, 200, 7);
-    private Cannonball[] cannonballs = new Cannonball[50];
+    private Airplane _airplane = new Airplane(_airplaneImg, 200, 200, 7);
+    private Cannonball[] _cannonballs = new Cannonball[50];
+    private Explode _explode;
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(_backgroundImg, 0, 0, _frame_width, _frame_height, null);
-        airplane.drawMyself(g);
+        _airplane.drawMyself(g);
 
-        for (int i = 0; i < cannonballs.length; i++) {
-            if (cannonballs[i] == null)
+        for (int i = 0; i < _cannonballs.length; i++) {
+            if (_cannonballs[i] == null)
                 initFrame();
-            cannonballs[i].drawMyself(g);
-            boolean isBoom = cannonballs[i].getRectangle().intersects(airplane.getRectangle());
-            if(isBoom)
-                airplane._isAlive = false;
+            _cannonballs[i].drawMyself(g);
+            boolean isBoom = _cannonballs[i].getRectangle().intersects(_airplane.getRectangle());
+            if (isBoom) {
+                _airplane._isAlive = false;
+                if (_explode == null)
+                    _explode = new Explode(_airplane._xAxis, _airplane._yAxis);
+                _explode.draw(g);
+            }
         }
 
     }
@@ -47,12 +52,12 @@ public class MyGameFrame extends Frame {
     class KeyboardMonitor extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            airplane.addDirection(e);
+            _airplane.addDirection(e);
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            airplane.minusDirection(e);
+            _airplane.minusDirection(e);
         }
     }
 
@@ -87,8 +92,8 @@ public class MyGameFrame extends Frame {
         // listen to keyboard's action
         addKeyListener(new KeyboardMonitor());
 
-        for (int i = 0; i < cannonballs.length; i++)
-            cannonballs[i] = new Cannonball();
+        for (int i = 0; i < _cannonballs.length; i++)
+            _cannonballs[i] = new Cannonball();
     }
 
     public static void main(String[] args) {
