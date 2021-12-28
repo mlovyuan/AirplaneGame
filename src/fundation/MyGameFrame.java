@@ -5,15 +5,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import static fundation.GameUtil.*;
 
 public class MyGameFrame extends Frame {
-    private Image _backgroundImg = getImage("images/starry.jpg");
-    private Image _airplaneImg = getImage("images/aircraft.png");
-    private Airplane _airplane = new Airplane(_airplaneImg, 200, 200, 7);
-    private Cannonball[] _cannonballs = new Cannonball[50];
+    private final Image _backgroundImg = getImage("images/starry.jpg");
+    private final Image _airplaneImg = getImage("images/aircraft.png");
+    private final Airplane _airplane = new Airplane(_airplaneImg, 200, 200, 7);
+    private final Cannonball[] _cannonballs = new Cannonball[50];
     private Explode _explode;
+    private Date _beginTime;
+    private Date _endTime;
+    private int _playPeriod;
 
     @Override
     public void paint(Graphics g) {
@@ -27,13 +31,14 @@ public class MyGameFrame extends Frame {
             boolean isBoom = _cannonballs[i].getRectangle().intersects(_airplane.getRectangle());
             if (isBoom) {
                 _airplane._isAlive = false;
+                _playPeriod = (int) ((new Date().getTime() - _beginTime.getTime()) / 1000);
                 if (_explode == null)
                     _explode = new Explode(_airplane._xAxis, _airplane._yAxis);
                 _explode.draw(g);
             }
         }
         if (!_airplane._isAlive)
-            printInfo(g,"Airplane Crash",40,_airplane._xAxis,_airplane._yAxis, Color.WHITE);
+            printInfo(g, "Play Period:" + _playPeriod + "seconds", 30, 200, 200, Color.WHITE);
     }
 
     class PaintThread extends Thread {
@@ -108,6 +113,8 @@ public class MyGameFrame extends Frame {
 
         for (int i = 0; i < _cannonballs.length; i++)
             _cannonballs[i] = new Cannonball();
+
+        _beginTime = new Date();
     }
 
     public static void main(String[] args) {
